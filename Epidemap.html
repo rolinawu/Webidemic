@@ -28,6 +28,9 @@
         color: #442010;
         padding: 2%;
       }
+      #ex1Slider .slider-selection {
+		background: #BABABA;
+	  }
     </style>
   </head>
   <body data-spy="scroll" onload="readJSON()">
@@ -93,7 +96,7 @@
 
   		var count = parseInt((Math.random()*8));
   		var colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'white', 'black'];
-  		var yearss = [1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968];
+  		var yearss = [1960];
   		var diseasess = [];
   		var bops = [];
 
@@ -137,7 +140,7 @@
             fillOpacity: 0.2,
             map: map,
             center: loc,
-            radius: 2*Number(diseases[d].cases)
+            radius: 4*Number(diseases[d].cases)
           });
           city.fillColor = 'red';
           bops.push(city);
@@ -178,13 +181,12 @@
 
         for(d in diseases){
         	if(has(diseasess, diseases[d].disease)) continue;
-        	code+='<input type="checkbox" name="'+
-        	//code+='<button type="button" class="btn btn-default">
-        	diseases[d].disease +'" value="'+diseases[d].disease+'"  onclick="viewDisease(this.name)">'+
+        	code+=' <input type="checkbox" name="'+
+        	diseases[d].disease +'" value="'+diseases[d].disease+'"  onclick="viewDisease(this.name)"> '+
         	diseases[d].disease;
         	diseasess.push(diseases[d].disease);
         }
-        code+="</br><input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>";
+        code+='<input id="time" type="range" min="1960" max="1970" step="1" onclick="temporize(this.value)"/>';
         diseasess = [];
         document.getElementById("remote").innerHTML = code;
 
@@ -198,6 +200,14 @@
       	} else {
       		diseasess.push(elem);
       	}
+      	for(i in bops){
+      		bops[i].setMap(null);
+      	}
+      	populateSickCities(towns, diseases);
+      }
+
+      function temporize(time){
+      	yearss = [time];
       	for(i in bops){
       		bops[i].setMap(null);
       	}
