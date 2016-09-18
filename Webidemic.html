@@ -20,9 +20,8 @@
         width: 100%;
       }
       .banner {
-        margin: 0;
-        padding: 2%;
-        font-size: 14pt;
+        padding: 1%;
+        font-size: 10pt;
         text-align: center;
       }
       .content {
@@ -30,6 +29,7 @@
       }
       .controls{
       	text-align: center;
+      	padding: 1.5%;
       }
       #ex1Slider .slider-selection {
 		background: #BABABA;
@@ -37,7 +37,8 @@
     </style>
   </head>
   <body data-spy="scroll" onload="readJSON()">
-    <div class = "banner" id="banner"> Webidemic 
+    <div class = "banner" id="banner"> 
+    <p>Choose which diseases to display in the check-boxes below, and slide to change the year.</p>
     </div>
     <div class = "map_frame"><div id="map"></div></div>
     <div class = "controls" id="remote"></div>
@@ -81,21 +82,6 @@
           }] 
         });
       }
-    	
-    	/* var layer = new google.maps.FusionTablesLayer({
-    		query: {
-      			select: '\'Geocodable address\'',
-      			from: '17aT9Ud-YnGiXdXEJUyycH2ocUqreOeKGbzCkUw'
-    		}, styles: [{
-            	polygonOptions: {
-              		fillColor: '#FF0000',
-              		fillOpacity: 0.2,
-              		strokeColor: '#990000',
-              		strokeOpacity: 0.1
-            	}
-            }]
-  		});
-  		layer.setMap(map);*/
 
   		var count = parseInt((Math.random()*8));
   		var colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'white', 'black'];
@@ -143,7 +129,7 @@
             fillOpacity: 0.2,
             map: map,
             center: loc,
-            radius: 4*Number(diseases[d].cases)
+            radius: 5*Number(diseases[d].cases)
           });
           city.fillColor = 'red';
           bops.push(city);
@@ -153,7 +139,6 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMxqBiA3URD_4z2m22xrCF14aDT6zE3Nc&callback=initMap"
     async defer></script>
-    <!--<script src="data.json"></script>-->
     <script src="cities.json"></script>
     <script src="data.json"></script>
     <script>
