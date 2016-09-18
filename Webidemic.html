@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Epidemap</title>
+    <title>Webidemic</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="initial-scale=1.0, width = device-width, maximum-scale = 1, user-scalable = no">
     <meta charset="utf-8">
@@ -10,6 +10,7 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        color: #442010;
       }
       #map {
         height: 100%;
@@ -19,14 +20,16 @@
         width: 100%;
       }
       .banner {
-        color: #442010;
         margin: 0;
         padding: 2%;
         font-size: 14pt;
+        text-align: center;
       }
       .content {
-        color: #442010;
         padding: 2%;
+      }
+      .controls{
+      	text-align: center;
       }
       #ex1Slider .slider-selection {
 		background: #BABABA;
@@ -34,10 +37,10 @@
     </style>
   </head>
   <body data-spy="scroll" onload="readJSON()">
-    <div class = "banner" id="banner"> A Trip Through the Ages... </div>
+    <div class = "banner" id="banner"> Webidemic 
+    </div>
     <div class = "map_frame"><div id="map"></div></div>
     <div class = "controls" id="remote"></div>
-    <div class = "content" id="data"> This is where the content goes... </div>
     <script>
       var map;
       function initMap() {
@@ -183,10 +186,10 @@
         	if(has(diseasess, diseases[d].disease)) continue;
         	code+=' <input type="checkbox" name="'+
         	diseases[d].disease +'" value="'+diseases[d].disease+'"  onclick="viewDisease(this.name)"> '+
-        	diseases[d].disease;
+        	diseases[d].disease.toString().toLowerCase();
         	diseasess.push(diseases[d].disease);
         }
-        code+='<input id="time" type="range" min="1960" max="1970" step="1" onclick="temporize(this.value)"/>';
+        code+='</br>1960<input id="time" type="range" min="1960" max="1970" step="1" onclick="temporize(this.value)" width="100%"/>1970';
         diseasess = [];
         document.getElementById("remote").innerHTML = code;
 
