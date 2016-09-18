@@ -93,8 +93,9 @@
 
   		var count = parseInt((Math.random()*8));
   		var colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'white', 'black'];
-  		var yearss = [1965, 1966, 1967, 1968];
+  		var yearss = [1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968];
   		var diseasess = [];
+  		var bops = [];
 
   		function has(arr, obj){
   			for(i in arr){
@@ -118,6 +119,7 @@
         	if(!has(yearss, diseases[d].year) || 
         		!has(diseasess, diseases[d].disease)) continue;
         	var ind = 0;
+        alert(JSON.stringify(towns));
         	for(i in towns){
         		if(towns[i].state == diseases[d].Abb_loc){
         			ind = i;
@@ -138,6 +140,7 @@
             radius: 2*Number(diseases[d].cases)
           });
           city.fillColor = 'red';
+          bops.push(city);
       }
   }
 
@@ -148,10 +151,11 @@
     <script src="cities.json"></script>
     <script src="data.json"></script>
     <script>
+      var diseases, towns;
 
       function readJSON(){
-        var diseases = JSON.parse(data);
-        var towns = JSON.parse(cities);
+        diseases = JSON.parse(data);
+        towns = JSON.parse(cities);
 
         for(t in towns){
         	var state_raw = (towns[t].city).toString()
@@ -180,6 +184,7 @@
         	diseases[d].disease;
         	diseasess.push(diseases[d].disease);
         }
+        code+="<br><input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>";
         diseasess = [];
         document.getElementById("remote").innerHTML = code;
 
@@ -193,7 +198,10 @@
       	} else {
       		diseasess.push(elem);
       	}
-      	populateSickCities(JSON.parse(data), JSON.parse(cities));
+      	for(i in bops){
+      		bops[i].setMap(null);
+      	}
+      	populateSickCities(towns, diseases);
       }
 
     </script>
