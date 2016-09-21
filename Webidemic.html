@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Epidemap</title>
+    <!-- Bootstrap -->
+    <link href = "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel = "stylesheet">
+    <!-- Bootstrap -->
+    <link href = "css/bootstrap.min.css" rel = "stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1.0, width = device-width, maximum-scale = 1, user-scalable = no">
+    <meta charset="utf-8">
+
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+      .map_frame {
+        height: 80%;
+        width: 100%;
+      }
+      .banner {
+        color: #442010;
+        margin: 0;
+        padding: 2%;
+        font-size: 14pt;
+      }
+      .content {
+        color: #442010;
+        padding: 2%;
+      }
+      #ex1Slider .slider-selection {
+    background: #BABABA;
+    }
+    </style>
+  </head>
+  <body data-spy="scroll" onload="readJSON()" id="page-top" data-spy="scroll" data-target=".navbar-custom" style="background-color:#000000">
+      <nav  class="navbar navbar-inverse navbar-fixed-top " role="navigation">
+
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <a class="navbar-brand">A Trip Through the Ages 
+                </a>
+            </div>
+
+            <!-- Nav bar -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="page-scroll">
+                        <a href="#map">Map</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="Zika.html">Zika Map</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#graphana" href="#contact">Graphical Analysis</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="#whatsnext" href="#contact">What's next?</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="Zika_Analysis.html">Zika Notebook</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a href="USA_Disease.html">USA Epidemic Notebook</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <br>
+    <br>
+    <br>
+    <div id="banner" > 
+    <h4 color="#FFFFFF">Choose which diseases to display in the check-boxes below, and slide to change the year.</h4>
+    </div>
+    <frame class = "total_map" style="background-color:#e5e5e5">
+        <div class = "map_frame" ><div id="map"></div></div>
+        <div class = "controls" id="remote" style="background-color:#e5e5e5"></div>
+    </frame>
+
+    <section id ="graphana" class="container content-section text-center" style="background-color:#000000">
+        <div class="graphical_analysis-section">
+          <br>
+          <br>
+            <h2>Graphical Analysis</h2>
+            <div class="divider-grey" color="#FFFFFF"></div>
+             <div class="row">
+                <p color="#FFFFFF"></p>
+                <img src="Datatable.jpg" style="width:500px;height:280px;">
+                 <p color="#FFFFFF"> Through graphing out several plots about the data, we spotted one interesting observation. Majority of the diseases occured between 1920 to 1960, with Measles clearly dominating the graph. </p>
+                <img src="scatterplot.jpg" style="width:500px;height:400px;">
+
+             </div>
+        </div>
+    </section>
+
+
+    <div id ="whatsnext" class="container content-section text-center" style="background-color:#000000">
+        <div class="whatsnext-section">
+            <h2>What's next?</h2>
+            <div class="divider-grey"></div>
+             <div class="row">
+                <p>We originally wanted to predict the migration of the most popular epidemics using LSTM, a Recurrent Neural Network that has the ability to predict time series data. However, the data provided from the google cloud services and various government release datasets do not contain extra information other than the report date and the type of disease recorded. Due to the limitation of time, we decided to abandon the possibility of collecting more features, such as temperature and top news, about each report date. We decided to explore the dataset we currently have in more detail. We extracted the elevation,latitude, longtitude, and population dentity of each location. We currently building a svm classifier and naive bayes classifier which will be able to predict which countries will be able to classify which has a higher chance of exposure to certain epidemic. </p>
+             </div>
+        </div>
+    </div>
+
+
+
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 37.0902, lng: -95.7129},
+          zoom: 4,
+          mapTypeId: 'terrain',
+          disableDefaultUI: true,
+          styles: [
+          {
+          	featureType: 'water',
+          	stylers: [
+          		{ hue: '#DD7710' }, 
+          		{ saturation: -50 }
+          	]
+          }, {
+          	featureType: 'landscape',
+          	stylers: [
+          		{ hue: '#DD7710' },
+          		{ saturation: 10 }
+          	]
+          }, {
+          	featureType: 'road',
+          	stylers: [
+          		{ hue: '#DD7710' },
+          		{ saturation: 10 }
+          	]
+          }, {
+          	elementType: 'labels.text.fill',
+          	stylers: [
+          		{ visibility: 'off'}
+          	]
+          }, {
+          	elementType: 'labels.text',
+          	stylers: [
+          		{ color: '#000000' }
+          	]
+          }] 
+        });
+      }
+
+  		var count = parseInt((Math.random()*8));
+  		var colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'white', 'black'];
+  		var yearss = [];
+  		var diseasess = [];
+  		var bops = [];
+
+  		function has(arr, obj){
+  			for(i in arr){
+  				if(arr[i] == obj)
+  					return true;
+  			}
+  			return false;
+  		}
+
+  		function remove(arr, obj){
+  			for(i in arr){
+  				if(arr[i] == obj){
+  					arr.splice(i, 1);
+  					break;
+  				}
+  			}
+  		}
+
+      function populateSickCities(towns, diseases){
+        for(d in diseases){
+        	if(!has(yearss, diseases[d].year) || 
+        		!has(diseasess, diseases[d].disease)) continue;
+        	var ind = 0;
+        	for(i in towns){
+        		if(towns[i].state == diseases[d].Abb_loc){
+        			ind = i;
+        			break;
+        		}
+        	}
+
+          var loc = {lat: Number(towns[ind].latcir),
+            lng: 0-Number(towns[ind].lngcir)};
+
+          var city = new google.maps.Circle({
+          	fillColor: 'red',
+            strokeOpacity: 0.3,
+            strokeWeight: 1,
+            fillOpacity: 0.2,
+            map: map,
+            center: loc,
+            radius: 5*Number(diseases[d].cases)
+          });
+          city.fillColor = 'red';
+          bops.push(city);
+      }
+  }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMxqBiA3URD_4z2m22xrCF14aDT6zE3Nc&callback=initMap"
+    async defer></script>
+    <script src="cities.json"></script>
+    <script src="data.json"></script>
+    <script>
+      var diseases, towns;
+
+      function readJSON(){
+        diseases = JSON.parse(data);
+        towns = JSON.parse(cities);
+
+        for(t in towns){
+        	var state_raw = (towns[t].city).toString()
+        		.substring((towns[t].city).toString().
+        			indexOf(towns[t], ","));
+        	var state = "";
+        	var i = 0;
+        	var n = 0;
+        	while(n<2){
+        		if(state_raw.toString().charAt(i)!='.'){
+        			state+=state_raw.charAt(i);
+        			n++;
+        		}
+        		i++;
+        	}
+        	towns[t].state=state.toUpperCase(); 
+        }
+
+        var code = "";
+
+        for(d in diseases){
+        	if(has(diseasess, diseases[d].disease)) continue;
+        	code+=' <input type="checkbox" name="'+
+        	diseases[d].disease +'" value="'+diseases[d].disease+'"  onclick="viewDisease(this.name)"> '+
+        	diseases[d].disease.toString().toLowerCase();
+        	diseasess.push(diseases[d].disease);
+        }
+        code+='</br>1816-2011</br><input id="time" type="range" min="1816" max="2011" step="1" onchange="temporize(this.value)" onclick="temporize(this.value)" />';
+        diseasess = [];
+        document.getElementById("remote").innerHTML = code;
+
+        // For debugging purposes: cities = JSON.stringify(words); this displays json object
+        populateSickCities(towns, diseases);
+      }
+
+      function viewDisease(elem){
+      	if(has(diseasess, elem)){
+      		remove(diseasess, elem);
+      	} else {
+      		diseasess.push(elem);
+      	}
+      	for(i in bops){
+      		bops[i].setMap(null);
+      	}
+      	bops = [];
+      	populateSickCities(towns, diseases);
+      }
+
+      function temporize(time){
+      	yearss = [time];
+      	for(i in bops){
+      		bops[i].setMap(null);
+      	}
+      	bops = [];
+      	populateSickCities(towns, diseases);
+      }
+
+    </script>
+  </body>
+</html>
