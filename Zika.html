@@ -31,14 +31,11 @@
       	text-align: center;
       	padding: 1.5%;
       }
-      #ex1Slider .slider-selection {
-		background: #BABABA;
-	  }
     </style>
   </head>
   <body data-spy="scroll" onload="readJSON()">
     <div class = "banner" id="banner"> 
-    <p>Choose which diseases to display in the check-boxes below, and slide to change the year.</p>
+    <p>Zika Virus Progression.</p>
     </div>
     <div class = "map_frame"><div id="map"></div></div>
     <div class = "controls" id="remote"></div>
@@ -47,7 +44,7 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 37.0902, lng: -95.7129},
-          zoom: 4,
+          zoom: 2,
           mapTypeId: 'terrain',
           disableDefaultUI: true,
           styles: [
@@ -83,10 +80,8 @@
         });
       }
 
-  		var count = parseInt((Math.random()*8));
-  		var colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'white', 'black'];
-  		var yearss = [1960];
-  		var diseasess = [];
+  		var year = 20161128;
+      var dates = [];
   		var bops = [];
 
   		function has(arr, obj){
@@ -106,21 +101,19 @@
   			}
   		}
 
-      function populateSickCities(towns, diseases){
-        for(d in diseases){
-        	if(!has(yearss, diseases[d].year) || 
-        		!has(diseasess, diseases[d].disease)) continue;
+      function populateSickCities(towns, disease){
+        for(d in disease){
+          if(!d.report_date == dates[year]) continue;
         	var ind = 0;
-        alert(JSON.stringify(towns));
         	for(i in towns){
-        		if(towns[i].state == diseases[d].Abb_loc){
+        		if(towns[i].full_name == disease[d].location){
         			ind = i;
         			break;
         		}
         	}
 
-          var loc = {lat: Number(towns[ind].latcir),
-            lng: 0-Number(towns[ind].lngcir)};
+          var loc = {lat: Number(towns[ind].lat),
+            lng: Number(towns[ind].lng)};
 
           var city = new google.maps.Circle({
           	fillColor: 'red',
@@ -129,77 +122,51 @@
             fillOpacity: 0.2,
             map: map,
             center: loc,
-            radius: 5*Number(diseases[d].cases)
+            radius: 5*Number(disease[d].value)
           });
           city.fillColor = 'red';
           bops.push(city);
-      }
+        }
   }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMxqBiA3URD_4z2m22xrCF14aDT6zE3Nc&callback=initMap"
     async defer></script>
-    <script src="cities.json"></script>
-    <script src="data.json"></script>
+    <script src="countries.json"></script>
+    <script src="zika.json"></script>
     <script>
-      var diseases, towns;
+      var disease, towns;
 
       function readJSON(){
-        diseases = JSON.parse(data);
-        towns = JSON.parse(cities);
+        disease = JSON.parse(zika);
+        towns = JSON.parse(countries);
 
-        for(t in towns){
-        	var state_raw = (towns[t].city).toString()
-        		.substring((towns[t].city).toString().
-        			indexOf(towns[t], ","));
-        	var state = "";
-        	var i = 0;
-        	var n = 0;
-        	while(n<2){
-        		if(state_raw.toString().charAt(i)!='.'){
-        			state+=state_raw.charAt(i);
-        			n++;
-        		}
-        		i++;
-        	}
-        	towns[t].state=state.toUpperCase(); 
+        for(d in disease){
+          dates.push(d.report_date);
         }
 
-        var code = "";
-
-        for(d in diseases){
-        	if(has(diseasess, diseases[d].disease)) continue;
-        	code+=' <input type="checkbox" name="'+
-        	diseases[d].disease +'" value="'+diseases[d].disease+'"  onclick="viewDisease(this.name)"> '+
-        	diseases[d].disease.toString().toLowerCase();
-        	diseasess.push(diseases[d].disease);
-        }
-        code+='</br>1960<input id="time" type="range" min="1960" max="1970" step="1" onclick="temporize(this.value)" width="100%"/>1970';
-        diseasess = [];
+        var code ='</br>28/11/2015-01/07/2016</br><input id="time" type="range" min="0" max="216" step="1" onchange="temporize(this.value)" onclick="temporize(this.value)" />';
         document.getElementById("remote").innerHTML = code;
 
         // For debugging purposes: cities = JSON.stringify(words); this displays json object
-        populateSickCities(towns, diseases);
+        populateSickCities(towns, disease);
       }
 
       function viewDisease(elem){
-      	if(has(diseasess, elem)){
-      		remove(diseasess, elem);
-      	} else {
-      		diseasess.push(elem);
-      	}
       	for(i in bops){
       		bops[i].setMap(null);
       	}
-      	populateSickCities(towns, diseases);
+        bops = [];
+      	populateSickCities(towns, disease);
       }
 
       function temporize(time){
-      	yearss = [time];
+        year = time;
       	for(i in bops){
       		bops[i].setMap(null);
       	}
-      	populateSickCities(towns, diseases);
+        bops = [];
+      	populateSickCities(towns, disease);
       }
 
     </script>
