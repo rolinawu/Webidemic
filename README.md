@@ -54,18 +54,18 @@ We originally wanted to predict the migration of the most popular epidemics usin
 Currently, I am searching for population report data and weather report data for extra information. 
 
 ####Which model should I choose?
-(What can't classfier do the job?)
+<!-- (What can't classfier do the job?)-->
 The problem that we are trying to predict is a time series problem. Long Short Term Memroy, a type of Recurrent Neural Network, is well know for its ability to predict time series data. The forget Gate allows LSTM to forgot instances that occured far in the past to make sure the model always adapt to the most recent pattern of the data. The input and output Gate ensures the quality of the input and the output of the model.
 
-
+<!--
 (Talk about LSTM and how it will work, what data do we need)
-
+-->
 Here is a link to my blog post that explains LSTM in more detail
-(Link to Blog)
+https://rolinawu.github.io/
+<!--
 Here is my LSTM implementation using tensorflow
 (Link to Github)
-
-
+-->
 
 [screenshot]: https://github.com/rolinawu/Webidemic/blob/master/screenshot.jpg
 
