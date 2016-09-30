@@ -1,6 +1,6 @@
 # Webidemic
 ####This is a on-going project that initially started at HacktheNorth 2016.
-####Great thanks to [Alya](https://github.com/hacktheverse/Webidemic] who helped me with the Google Map API implementation 
+####Great thanks to [Alya](https://github.com/hacktheverse/Webidemic) who helped me with the Google Map API implementation 
 
 ##Backgroud Story
 Polished Version:
