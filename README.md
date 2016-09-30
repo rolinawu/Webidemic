@@ -1,6 +1,6 @@
 # Webidemic
 ####This is a on-going project that initially started at HacktheNorth 2016.
-####Great thanks to [Alya][https://github.com/hacktheverse/Webidemic] who helped me with the Google Map API implementation 
+####Great thanks to [Alya](https://github.com/hacktheverse/Webidemic] who helped me with the Google Map API implementation 
 
 ##Backgroud Story
 Polished Version:
@@ -67,11 +67,10 @@ Here is my LSTM implementation using tensorflow
 
 
 
-[screenshot] : https://github.com/rolinawu/Webidemic/blob/master/screenshot.jpg
+[screenshot]: https://github.com/rolinawu/Webidemic/blob/master/screenshot.jpg
 
-[randomsample] :
- https://github.com/rolinawu/Webidemic/randomsample.jpg
+[randomsample]: https://github.com/rolinawu/Webidemic/randomsample.jpg
 
-[scatterplot] : https://github.com/rolinawu/Webidemic/blob/master/scatterplot.jpg 
+[scatterplot]: https://github.com/rolinawu/Webidemic/blob/master/scatterplot.jpg 
 
-[Datatable] : https://github.com/rolinawu/Webidemic/blob/master/Datatable.jpg  
+[Datatable]: https://github.com/rolinawu/Webidemic/blob/master/Datatable.jpg  
